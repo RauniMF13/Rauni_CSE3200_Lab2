@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Lab 1</string>
+    <string name="true_button">Verdadeiro</string>
+    <string name="false_button">Falso</string>
+    <string name="greeting">Ola mundo!</string>
+    <string name="correct_toast">Correto</string>
+    <string name="incorrect_toast">Incorreto</string>
+    <string name="next_button">Próximo</string>
+    <string name="prev_button">Anterior</string>
+    <string name="question_australia">Canberra é a capital da Austrália</string>
+    <string name="question_oceans">O Oceano Pacífico é maior que o Oceano Atlântico.</string>
+    <string name="question_africa">A nascente do rio Nilo fica no Egito.</string>
+    <string name="question_americas">O rio Amazonas é o maior rio das Américas.</string>
+    <string name="question_mideast">O Canal Sues conecta o Mar Vermelho e o Oceano Índico.</string>
+    <string name="question_asia">O Lago Baikal é o lago de água doce mais antigo e profundo do mundo.</string>
+</resources>
