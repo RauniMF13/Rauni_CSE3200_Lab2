@@ -1,4 +1,4 @@
-package com.cse3200.lab1
+package com.cse3200.lab2
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

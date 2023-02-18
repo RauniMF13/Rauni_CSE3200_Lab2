@@ -1,4 +1,4 @@
-package com.cse3200.lab1
+package com.cse3200.lab2
 
 import org.junit.Test
 

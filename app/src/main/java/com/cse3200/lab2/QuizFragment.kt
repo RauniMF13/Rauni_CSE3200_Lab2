@@ -1,44 +1,63 @@
-package com.cse3200.lab1
+package com.cse3200.lab2
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
-import com.cse3200.lab1.databinding.ActivityMainBinding
+import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import com.cse3200.lab2.databinding.FragmentQuizBinding
 
-private const val TAG = "MainActivity"
+class QuizFragment : Fragment() {
+    private var _binding: FragmentQuizBinding? = null
 
-class MainActivity : AppCompatActivity() {
-    private lateinit var activityMainBindings: ActivityMainBinding
+    private lateinit var bundle : Bundle
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+    private val binding get() = _binding!!
 
-        activityMainBindings = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(activityMainBindings.root)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        _binding = FragmentQuizBinding.inflate(layoutInflater, container, false)
 
-        activityMainBindings.trueButton.setOnClickListener {
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.trueButton.setOnClickListener {
             checkAnswer(true)
             updateQuestion()
         }
 
-        activityMainBindings.falseButton.setOnClickListener {
+        binding.falseButton.setOnClickListener {
             checkAnswer(false)
             updateQuestion()
         }
 
-        activityMainBindings.nextButton.setOnClickListener {
+        binding.nextButton.setOnClickListener {
             currentIndex = (currentIndex + 1) % questionBank.size
             updateQuestion()
         }
 
-        activityMainBindings.prevButton.setOnClickListener {
+        binding.prevButton.setOnClickListener {
             if (currentIndex > 0) {
                 currentIndex = (currentIndex - 1)
                 updateQuestion()
             }
+        }
+
+        binding.doneButton.setOnClickListener {
+            // Navigate to done fragment
+            val action = QuizFragmentDirections.submit()
+
+            findNavController().navigate(action)
         }
 
         updateQuestion()
@@ -53,13 +72,24 @@ class MainActivity : AppCompatActivity() {
         Question(R.string.question_asia, answer = true, firstGuess = true)
     )
 
+    private val scoreTexts = listOf(
+        R.string.score_zero,
+        R.string.score_one,
+        R.string.score_two,
+        R.string.score_three,
+        R.string.score_four,
+        R.string.score_five,
+        R.string.score_six
+    )
+
     private var currentIndex = 0
 
     private var score = Score(0)
 
     private fun updateQuestion() {
         val questionTextResId = questionBank[currentIndex].textResId
-        activityMainBindings.textView2.setText(questionTextResId)
+        binding.textView2.setText(questionTextResId)
+        binding.scoreText.setText(scoreTexts[score.curScore])
     }
 
     private fun checkAnswer(userAnswer: Boolean) {
@@ -84,24 +114,14 @@ class MainActivity : AppCompatActivity() {
         }
 
         Toast.makeText(
-            this,
+            activity,
             messageResId,
             Toast.LENGTH_SHORT
         ).show()
     }
 
-    override fun onResume() {
-        super.onResume()
-        Log.d(TAG, "onResume() called")
-    }
-
-    override fun onPause() {
-        super.onPause()
-        Log.d(TAG,"onPause() called")
-    }
-
-    override fun onStop() {
-        super.onStop()
-        Log.d(TAG, "onStop() called")
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
